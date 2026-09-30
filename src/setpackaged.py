@@ -4,6 +4,7 @@ import shutil
 import json
 from pathlib import Path
 import runpy
+from settingsutils import get_settings_path
 
 
 def getRightPath(relative_path):
@@ -50,7 +51,7 @@ try:
             print("\nThis file is not in the .asar format!\n")
             continue
 
-        settingspath = getRightPath('settings.json')
+        settingspath = get_settings_path()
             
         with open(settingspath, 'r', encoding='utf-8') as file:
             loadedJson = json.load(file)

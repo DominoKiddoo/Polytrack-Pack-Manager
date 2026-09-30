@@ -12,6 +12,7 @@ import math
 from pydub import AudioSegment
 from pydub.effects import normalize
 import time
+from settingsutils import get_settings_path
 
 
 def getScriptPath(name):

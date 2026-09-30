@@ -4,7 +4,7 @@
 a = Analysis(
     ['main.py'],
     pathex=[],
-    binaries=[('src/ffmpeg.exe', '.')],
+    binaries=[],
     datas=[
         ('src', 'src'),
         ('main.py', '.'),

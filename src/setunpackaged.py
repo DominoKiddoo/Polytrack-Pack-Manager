@@ -5,6 +5,8 @@ import sys
 import runpy
 from asar import *
 import re
+from settingsutils import get_settings_path
+
 
 def getScriptPath(name):
     if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
@@ -74,7 +76,7 @@ And an index.html file.
 
 def change(finalpath):
     try:
-        settingspath = getRightPath('settings.json')
+        settingspath = get_settings_path()
 
         with open(settingspath, 'r', encoding='utf-8') as file:
             loadedJson = json.load(file)

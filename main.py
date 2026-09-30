@@ -5,6 +5,7 @@ import sys
 import os
 import runpy
 import json
+from settingsutils import get_settings_path
 
 def getScriptPath(name):
     if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
@@ -39,7 +40,7 @@ try:
         """)
 
 
-        settingspath = getRightPath('src/settings.json')
+        settingspath = get_settings_path()
         try:
             with open(settingspath, 'r', encoding='utf-8') as file:
                 loadedJson = json.load(file)

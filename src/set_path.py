@@ -3,6 +3,7 @@ import json
 import os
 import sys
 import runpy
+from settingsutils import get_settings_path
 
 def getScriptPath(name):
     if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
@@ -41,7 +42,7 @@ def addPath():
         asar_exists = (base / "resources" / "app.asar").is_file()
 
         if exe_exists and dir_exists and asar_exists:
-            settingspath = getRightPath('settings.json')
+            settingspath = get_settings_path()
 
             if not os.path.exists(settingspath):
                 with open(settingspath, 'w', encoding='utf-8') as file:

@@ -8,6 +8,7 @@ from pathlib import Path
 from asar import extract_archive
 import re
 import runpy
+from settingsutils import get_settings_path
 
 def getScriptPath(name):
     if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):

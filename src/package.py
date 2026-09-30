@@ -5,6 +5,7 @@ import sys
 import runpy
 from asar import *
 import re
+from settingsutils import get_settings_path
 
 def getScriptPath(name):
     if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
