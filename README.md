@@ -1,5 +1,5 @@
 
-# Polytrack Pack Manager
+# Polytrack Pack Manager - Currently compatible with PolyTrack 0.6.3
 
 CLI-Based tool to help with polytrack modding. Includes a collection of helpers to make creating packs much easier. With packs, you can edit  all the in game files including:
 * Audio
@@ -10,6 +10,8 @@ CLI-Based tool to help with polytrack modding. Includes a collection of helpers 
 Allowing for endless posibilities.
 
 Currently only supports windows. For the best way to learn how to use this tool, read this entire readme!
+
+For developer tips, read [here](#developer-tips)
 
 ## What is Polytrack?
 
@@ -41,6 +43,8 @@ If you want to make a pr, feel free to do that too! I want this to be the pest p
 
 ## Sharing packs
 There is currently no official way of sharing packs. You'd have to message them to your friends, or upload them to a cloud service such as Google Drive or Dropbox.
+
+
 
 ## Tools explained
 There are 3 catagories of utilities,
@@ -404,4 +408,180 @@ Cloning default..
 Reset to default pack!
 
 Press Enter to go back...
+```
+
+## Developer tips
+After some testing, I found out using the 'Fix Sounds' tool isn't the best way to help with sounds being too quiet. Below is a cheatsheet for modifying volume/speed of sounds through code:
+
+(THESE ARE ACCURATE FOR PolyTrack 0.6.3)
+
+**Volume of `click.mp3/ogg`**  
+Found in `playUIClick()` in `main.bundle.js` specifically  
+`n.gain.value = .0075, t.connect(n), n.connect(this.destinationSfx), t.start(0)`
+
+**Volume and playback rate of `editor_edit.mp3/ogg`**  
+
+Found in `112.bundle.js`, specifically
+```
+                    const e = (0, i.gn)(this, Ft, "f").getBuffer("editor_edit");
+                    if (null != e && null != (0, i.gn)(this, Ft, "f").context && null != (0, i.gn)(this, Ft, "f").destinationSfx) {
+                        const t = (0, i.gn)(this, Ft, "f").context.createBufferSource();
+                        t.buffer = e, t.playbackRate.value = .7;
+                        const n = (0, i.gn)(this, Ft, "f").context.createGain();
+                        n.gain.value = .05, t.connect(n), n.connect((0, i.gn)(this, Ft, "f").destinationSfx), t.start(0)
+                    }(0, i.GG)(this, Yt, t, "f")
+
+```
+
+**Volume and playback rate of `record.mp3/ogg`**  
+Found in `main.bundle.js`, specifically
+```
+            (0, R.GG)(this, $e, setTimeout((() => {
+                const t = e.getBuffer("record");
+                if (null != t && null != e.context && null != e.destinationSfx) {
+                    const n = e.context.createBufferSource();
+                    n.buffer = t, n.playbackRate.value = 1.35;
+                    const i = e.context.createGain();
+                    i.gain.value = .05, n.connect(i), i.connect(e.destinationSfx), n.start(0)
+                }
+            }), 600), "f")
+```
+
+**Volume and playback rate of `engine.mp3/ogg`**  
+Found in `main.bundle.js`, specifically
+```
+                        const e = (0, l.gn)(this, G, "f").getBuffer("engine");
+                        if (null != e && null != (0, l.gn)(this, G, "f").context) {
+                            const t = (0, l.gn)(this, G, "f").context.createBufferSource();
+                            t.buffer = e, t.loop = !0, t.playbackRate.value = .7;
+                            const n = (0, l.gn)(this, G, "f").context.createGain();
+                            n.gain.value = 0, t.connect(n), n.connect((0, l.gn)(this, K, "f")), t.start(0, 2 * Math.random()), (0, l.GG)(this, O, {
+                                source: t,
+                                gain: n
+                            }, "f")
+                        }
+```
+
+**Volume and playback rate of `checkpoint.mp3/ogg`**  
+Found in `main.bundle.js`, specifically
+
+```
+                        const e = (0, l.gn)(this, G, "f").getBuffer("checkpoint");
+                        if (null != e && null != (0, l.gn)(this, G, "f").context && null != (0, l.gn)(this, G, "f").destinationMaster) {
+                            const n = (0, l.gn)(this, G, "f").context.createBufferSource();
+                            n.buffer = e, n.playbackRate.value = 1.25;
+                            const i = (0, l.gn)(this, G, "f").context.createGain();
+                            i.gain.value = .03 * t, n.connect(i), i.connect((0, l.gn)(this, G, "f").destinationMaster), n.start(0)
+                        }
+```
+
+**Volume and playback rate of `collision.mp3/ogg`**  
+Found in `main.bundle.js`, specifically
+
+```
+                        const t = (0, l.gn)(this, G, "f").getBuffer("collision");
+                        if (null != t && null != (0, l.gn)(this, G, "f").context) {
+                            const n = (0, l.gn)(this, G, "f").context.createBufferSource();
+                            n.buffer = t, n.playbackRate.value = .1 + .15 * Math.min(e / 4e3, 1);
+                            const i = (0, l.gn)(this, G, "f").context.createGain();
+                            i.gain.value = Math.max(.3, Math.min(e / 4e3, 1)) / 2.5, n.connect(i), i.connect((0, l.gn)(this, K, "f")), n.start(0)
+                        }
+```
+
+**Volume and playback rate of `engine.mp3/ogg`**  
+Found in `main.bundle.js`, specifically
+```
+                       const e = (0, l.gn)(this, G, "f").getBuffer("engine");
+                        if (null != e && null != (0, l.gn)(this, G, "f").context) {
+                            const t = (0, l.gn)(this, G, "f").context.createBufferSource();
+                            t.buffer = e, t.loop = !0, t.playbackRate.value = .7;
+                            const n = (0, l.gn)(this, G, "f").context.createGain();
+                            n.gain.value = 0, t.connect(n), n.connect((0, l.gn)(this, K, "f")), t.start(0, 2 * Math.random()), (0, l.GG)(this, O, {
+                                source: t,
+                                gain: n
+                            }, "f")
+                        }
+```
+
+**Volume of `music.mp3/ogg`**  
+Found in `main.bundle.js`, specifically
+
+```
+                    const e = this.getBuffer("music");
+                    if (null != e && null != this.context && null != this.destinationMaster) {
+                        const t = this.context.createBufferSource();
+                        t.buffer = e, t.loop = !0;
+                        const n = this.context.createGain();
+                        n.gain.value = 0, t.connect(n), n.connect(this.destinationMaster), t.start(0), (0, R.GG)(this, y, {
+                            source: t,
+                            gain: n
+                        }, "f")
+                    }
+```
+
+**Volume of `position_tick.mp3/ogg`**  
+Found in `main.bundle.js`, specifically
+
+```
+                                                const e = n.getBuffer("position_tick");
+                                                if (null != e && null != n.context && null != n.destinationSfx) {
+                                                    const t = n.context.createBufferSource();
+                                                    t.buffer = e;
+                                                    const i = n.context.createGain();
+                                                    i.gain.value = .01, t.connect(i), i.connect(n.destinationSfx), t.start(0)
+                                                }
+```
+
+**Volume of `skidding.mp3/ogg`**  
+Found in `main.bundle.js`, specifically
+```
+                        const e = (0, l.gn)(this, G, "f").getBuffer("skidding");
+                        if (null != e && null != (0, l.gn)(this, G, "f").context) {
+                            (0, l.GG)(this, Ie, [], "f");
+                            const t = 4;
+                            for (let n = 0; n < t; ++n) {
+                                const i = (0, l.gn)(this, G, "f").context.createBufferSource();
+                                i.buffer = e, i.loop = !0, i.playbackRate.value = .5;
+                                const r = (0, l.gn)(this, G, "f").context.createGain();
+                                r.gain.value = 0, i.connect(r), r.connect((0, l.gn)(this, q, "f")[n]), i.start(0, n / t * 3.5 + .25 * Math.random()), (0, l.gn)(this, Ie, "f").push({
+                                    source: i,
+                                    gain: r
+                                })
+                            }
+                        }
+```
+
+**Volume and playback rate of `suspension.mp3/ogg`**  
+Found in `main.bundle.js`, specifically
+
+```
+                            const e = Math.abs((0, l.gn)(this, te, "f").wheelSuspensionVelocity[t]);
+                            if (e > 4 && null != (0, l.gn)(this, G, "f")) {
+                                const n = (0, l.gn)(this, G, "f").getBuffer("suspension");
+                                if (null != n && null != (0, l.gn)(this, G, "f").context) {
+                                    const i = (0, l.gn)(this, G, "f").context.createBufferSource();
+                                    i.buffer = n, i.playbackRate.value = .7 + .1 * Math.random();
+                                    const r = (0, l.gn)(this, G, "f").context.createGain();
+                                    r.gain.value = Math.min(.285, e / 140), i.connect(r), r.connect((0, l.gn)(this, q, "f")[t]), i.start((0, l.gn)(this, G, "f").context.currentTime + .02 * Math.random()), (0, l.gn)(this, V, "f")[t] = .1
+                                }
+                            }
+```
+
+**Volume and playback rate of `tires.mp3/ogg`**  
+Found in `main.bundle.js`, specifically
+
+```
+                        if (null != e && null != (0, l.gn)(this, G, "f").context) {
+                            (0, l.GG)(this, H, [], "f");
+                            const t = 4;
+                            for (let n = 0; n < t; n++) {
+                                const i = (0, l.gn)(this, G, "f").context.createBufferSource();
+                                i.buffer = e, i.loop = !0, i.playbackRate.value = .3;
+                                const r = (0, l.gn)(this, G, "f").context.createGain();
+                                r.gain.value = 0, i.connect(r), r.connect((0, l.gn)(this, q, "f")[n]), i.start(0, n / t * 3.5 + .25 * Math.random()), (0, l.gn)(this, H, "f").push({
+                                    source: i,
+                                    gain: r
+                                })
+                            }
+                        }
 ```
