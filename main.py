@@ -137,7 +137,7 @@ try:
             runpy.run_path(getScriptPath("src/fixsounds.py"))
             break
         elif answer == 'Quick sound convert':
-            runpy.run_path(getScriptPath("src/quickconvert.py"))
+            runpy.run_path(getScriptPath("src/quickcopy.py"))
             break
 except KeyboardInterrupt:
     pass
